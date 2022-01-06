@@ -1,24 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
+import Home from './components/pages/Home';
+import Movies from './components/pages/Movies';
+import TvSeries from './components/pages/TvSeries';
+import EmployeeForm from './components/pages/EmployeeForm';
+import { BrowserRouter, Route, Switch, NavLink } from 'react-router-dom';
+import Navbar from './components/navbarComponent/Navbar.js';
+import Styles from './assets/styles.css'
 
 function App() {
   return (
+    <BrowserRouter>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <Navbar />
+          <Route exact path='/' component={Home} />
+          <Route exact path='/Movies' component={Movies}/>
+          <Route exact path='/TvSeries' component={TvSeries} />
+          <Route exact path='/EmployeeForm' component={EmployeeForm} />
     </div>
+    </BrowserRouter>
+
   );
 }
 
