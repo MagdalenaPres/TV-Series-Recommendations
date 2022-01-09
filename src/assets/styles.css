@@ -53,7 +53,7 @@ body{
     color: var(--text-color);
 }
 
-.navbar {
+.navBar {
     position: absolute;
     display: block;
     top: 0;
@@ -65,7 +65,7 @@ body{
     z-index: 100;
 }
 
-.navbar ul {
+.navBar ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -73,11 +73,11 @@ body{
     background-color: var(--navbar-background);
 }
   
-.navbar li {
+.navBar li {
     float: left;
 }
   
-.navbar li a {
+.navBar li a {
     display: block;
     color: white;
     text-align: center;
@@ -86,7 +86,7 @@ body{
  }
   
  /* Change the link color on hover */
- .navbar li a:hover {
+ .navBar li a:hover {
     background-color: var(--navbar-color);
 }
 .container-fluid{
@@ -384,7 +384,7 @@ input[type="text"]:disabled {
     background: #ccc;
   }
 
-#contact-form{
+.contact-form{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -898,4 +898,8 @@ canvas {
 
 .error {
     margin-top: 40px;
+}
+
+.error_message {
+    color: red;
 }
