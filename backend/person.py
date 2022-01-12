@@ -3,9 +3,10 @@ import re
 
 
 class Person:
-    def __init__(self, name, surname, mail, phone, city):
+    def __init__(self, name, surname, gender, mail, phone, city):
         self.name = name
         self.surname = surname
+        self._gender = gender
         self.mail = mail
         self.phone = phone
         self._city = city
@@ -29,6 +30,10 @@ class Person:
         if len(value) < 2:
             raise ValueError("Surame must be at least 2 characters long")
         self._surname = value
+
+    @property
+    def gender(self):
+        return self._gender
 
     @property
     def mail(self):
@@ -58,4 +63,4 @@ class Person:
         return self._city
 
     def __str__(self):
-        return f'{self._name} {self._surname}, mail: {self._surname}, phone: {self._phone}, city: {self._city}'
+        return f'{self._name} {self._surname}, {self._gender}, mail: {self._surname}, phone: {self._phone}, city: {self._city}'

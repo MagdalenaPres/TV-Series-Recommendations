@@ -28,12 +28,6 @@ class TvSeries extends Component {
                   </a>
                 </div>
               </div>
-              <a className="dItem" href="#text_ranking">
-                Rank
-              </a>
-              <a className="dItem" href="#glosowanie">
-                Vote
-              </a>
             </div>
           </div>
           <section className="diff">
@@ -143,21 +137,19 @@ class TvSeries extends Component {
               fans. I personally recommend it. And you watched this series? Do
               you have it in your plans? Write to us
             </div>
-            <div className="sherlock_aside">
-              <aside>
-                <br />
-                <a href="https://www.youtube.com/watch?v=xIBiJ_SzJTA">
-                  See trailer
-                </a>
-                <br />
-                <a
-                  href="https://fwcdn.pl/fpo/37/95/733795/7689969.3.jpg"
-                  download="Mr.Robot"
-                >
-                  Download music from series
-                </a>
-              </aside>
-            </div>
+            <aside>
+              <br />
+              <a href="https://www.youtube.com/watch?v=xIBiJ_SzJTA">
+                See trailer
+              </a>
+              <br />
+              <a
+                href="https://fwcdn.pl/fpo/37/95/733795/7689969.3.jpg"
+                download="Mr.Robot"
+              >
+                Download music from series
+              </a>
+            </aside>
           </section>
         </section>
       </div>

@@ -177,7 +177,7 @@ class Home extends Component {
               <div className="border_l" id="border_l">
                 <ul id="my_list"></ul>
               </div>
-              <p>
+              <div>
                 <label>Your proposition:</label>
                 <br />
                 <input
@@ -185,7 +185,7 @@ class Home extends Component {
                   id="input_list"
                   onKeyDown={this.pressed_enter}
                 />
-              </p>
+              </div>
             </div>
           </div>
         </section>
@@ -195,7 +195,8 @@ class Home extends Component {
               <p>
                 Maybe you want to recommend a movie or series to us? Write to
                 us!
-                <p>
+              </p>
+              <div>
                   <a href="mailto:254520@student.pwr.edu.pl">
                     <img
                       src="http://ppp5.pl/wp-content/uploads/2017/03/email-icon-23-300x300.png"
@@ -205,29 +206,29 @@ class Home extends Component {
                       id="index_transition"
                     />{" "}
                   </a>
-                </p>
-              </p>
+                </div>
+              
             </div>
             <div id="form_index">
               <form>
-                <p>
+                <div>
                   <label>
                     Rate us!
                     <Select options={options} />
                   </label>
-                </p>
-                <p>
+                </div>
+                <div>
                   <button onClick={this.showAlert} id="send_btn">
                     Send
                   </button>
-                </p>
+                </div>
               </form>
             </div>
           </div>
         </section>
-        <p>
-          <section class="watch_on_average">
-            <div class="avg_watch">
+        
+          <section className="watch_on_average">
+            <div className="avg_watch">
               <p>
                 <strong>
                   Do you want to know how you compare to the average adult in
@@ -240,7 +241,7 @@ class Home extends Component {
               <p id="result"></p>
             </div>
           </section>
-        </p>
+        
       </div>
     );
   }

@@ -12,7 +12,7 @@ CORS(app)
 def verify():
     data_dictionary = request.get_json()
     try:
-        person = Person(data_dictionary['name'], data_dictionary['surname'],
+        person = Person(data_dictionary['name'], data_dictionary['surname'], data_dictionary['gender'],
                         data_dictionary['mail'], data_dictionary['phone'], data_dictionary['city'])
         return {'message': f'{person.__str__()}'}
     except ValueError as e:

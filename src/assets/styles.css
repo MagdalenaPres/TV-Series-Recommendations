@@ -909,3 +909,16 @@ canvas {
     color: black;
     font-weight: bold;
 }
+
+.App {
+    text-align: center;
+  }
+
+.formDiv {
+    padding: 10px 0;
+}
+
+.reviews {
+    display: flex;
+    flex-direction: column;
+}

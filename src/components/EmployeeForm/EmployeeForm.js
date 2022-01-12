@@ -12,6 +12,7 @@ const EmployeeForm = () => {
   const [surname, setSurname] = useState("");
   const [mail, setMail] = useState("");
   const [phone, setPhone] = useState("");
+  const [gender, setGender] = useState("MAN");
   const [city, setCity] = useState(cities[0]);
   const [isFormShown, setIsFormShown] = useState(true);
 
@@ -30,9 +31,10 @@ const EmployeeForm = () => {
       const data = {
         name: name.trim(),
         surname: surname.trim(),
+        gender: gender,
         mail: mail,
         phone: phone,
-        city: city
+        city: city,
       };
 
       axios
@@ -70,15 +72,22 @@ const EmployeeForm = () => {
     setCity(e.target.value);
   };
 
+  const handleGenderChange = (e) => {
+    setGender(e.target.value);
+  };
+
   return (
     <div className="contact-form">
       {isFormShown && (
         <div>
           <h2>Join to our team!</h2>
-          <p>Please complete the form below so that we can get to know you better.</p>
+          <p>
+            Please complete the form below so that we can get to know you
+            better.
+          </p>
           <div>
-            <p>
-              <label for="name">
+            <div className="formDiv">
+              <label>
                 Name:{" "}
                 <input
                   type="text"
@@ -87,9 +96,9 @@ const EmployeeForm = () => {
                   onChange={handleNameChange}
                 />
               </label>
-            </p>
-            <p>
-              <label for="surname">
+            </div>
+            <div className="formDiv">
+              <label>
                 Surname:
                 <input
                   type="text"
@@ -98,19 +107,27 @@ const EmployeeForm = () => {
                   onChange={handleSurnameChange}
                 />
               </label>
-            </p>
-            <p>
-              <label for="city">
+            </div>
+            <div className="formDiv">
+              <div onChange={handleGenderChange}>
+                <input type="radio" value="male" name="gender" /> Male
+                <input type="radio" value="female" name="gender" /> Female
+              </div>
+            </div>
+            <div className="formDiv">
+              <label>
                 City:
                 <select name="city" id="city">
                   {cities.map((city) => (
-                    <option value={city} onChange={handleCityChange}>{city}</option>
+                    <option key={city} value={city} onChange={handleCityChange}>
+                      {city}
+                    </option>
                   ))}
                 </select>
               </label>
-            </p>
-            <p>
-              <label for="mail">
+            </div>
+            <div className="formDiv">
+              <label>
                 Email:
                 <input
                   type="email"
@@ -119,9 +136,9 @@ const EmployeeForm = () => {
                   onChange={handleMailChange}
                 />
               </label>
-            </p>
-            <p>
-              <label for="tel">
+            </div>
+            <div className="formDiv">
+              <label>
                 Phone number:
                 <input
                   type="tel"
@@ -130,7 +147,7 @@ const EmployeeForm = () => {
                   onChange={handlePhoneChange}
                 />
               </label>
-            </p>
+            </div>
 
             <button className="button-form" onClick={handleOnClick}>
               Send
