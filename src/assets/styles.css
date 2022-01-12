@@ -390,7 +390,7 @@ input[type="text"]:disabled {
     justify-content: center;
     flex-direction: column;
     font-family: 'Josefin Sans', sans-serif;
-    height: 90vh;
+    height: 100vh;
     background: rgb(120,232,255);
     background: radial-gradient(circle, rgba(120,232,255,1) 0%, rgba(242,214,146,1) 100%, rgba(120,232,255,1) 100%); 
 }
@@ -902,4 +902,10 @@ canvas {
 
 .error_message {
     color: red;
+}
+
+.info {
+    font-size: 1.3rem;
+    color: black;
+    font-weight: bold;
 }

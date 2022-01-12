@@ -12,6 +12,7 @@ const EmployeeForm = () => {
   const [surname, setSurname] = useState("");
   const [mail, setMail] = useState("");
   const [phone, setPhone] = useState("");
+  const [city, setCity] = useState(cities[0]);
   const [isFormShown, setIsFormShown] = useState(true);
 
   const handleOnClick = () => {
@@ -31,13 +32,14 @@ const EmployeeForm = () => {
         surname: surname.trim(),
         mail: mail,
         phone: phone,
+        city: city
       };
 
       axios
         .post(validateURL, data)
         .then((response) => {
           setMessage(
-            `Wysłane dane: ${response.data["message"]}. Niedługo się z Tobą skontaktujemy!`
+            `Data send: ${response.data["message"]}. We will contact with you asap`
           );
         })
         .catch((error) => {
@@ -62,6 +64,10 @@ const EmployeeForm = () => {
 
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
+  };
+
+  const handleCityChange = (e) => {
+    setCity(e.target.value);
   };
 
   return (
@@ -98,7 +104,7 @@ const EmployeeForm = () => {
                 City:
                 <select name="city" id="city">
                   {cities.map((city) => (
-                    <option value={city}>{city}</option>
+                    <option value={city} onChange={handleCityChange}>{city}</option>
                   ))}
                 </select>
               </label>
