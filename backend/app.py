@@ -23,7 +23,6 @@ def verify():
 
 @app.route('/products', methods=['GET'])
 def get_product():
-   products = [] 
    products = create_products()
    json_string = json.dumps(products, default=obj_dict)
    return json_string
@@ -31,7 +30,6 @@ def get_product():
 
 @app.route("/category", methods=["GET"])
 def get_categories():
-    categories = []
     categories = create_categories()
     json_string = json.dumps(categories, default=obj_dict)
     return json_string

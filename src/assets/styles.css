@@ -956,10 +956,11 @@ canvas {
 .table-products tr:nth-child(even) {
     background-color: #dddbd9;
 }
-#header-products{
-    margin-top: 60px;
-    font-size: 30px;
-    color: #565656;
+#page-name{
     text-align: center;
-    font-style: bold;
+    margin-top: 60px;
+    font-style: normal;
+    font-size: 30px;
+    color: #76323f;
+    font-weight: bold;
 }

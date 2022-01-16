@@ -1,7 +1,6 @@
 import itertools
 from flask import Flask, request, jsonify, make_response, json
 
-from category import Category
 
 class Product:
     
@@ -65,8 +64,4 @@ class Product:
     @categoryId.setter
     def categoryId(self, value):
         self._categoryId = value
-
-
-if __name__ == '__main__':
-    me = Product(1, 'ok', 12, 'dew', 2)
 
