@@ -10,7 +10,7 @@ class Person:
         self.mail = mail
         self.phone = phone
         self._city = city
-
+    
     @property
     def name(self):
         return self._name
