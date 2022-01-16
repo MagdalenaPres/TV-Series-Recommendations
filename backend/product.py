@@ -1,6 +1,8 @@
 import itertools
 from flask import Flask, request, jsonify, make_response, json
 
+from category import Category
+
 class Product:
     
     def __init__(self, id, name, price, photo, categoryId):
@@ -10,9 +12,13 @@ class Product:
         self.photo = photo
         self.categoryId = categoryId
 
-
-    def toJSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__)
+    @property
+    def category(self):
+        return self._category
+    
+    @category.setter
+    def category(self, value):
+        self._category = value
 
     @property
     def id(self):
@@ -63,5 +69,4 @@ class Product:
 
 if __name__ == '__main__':
     me = Product(1, 'ok', 12, 'dew', 2)
-    print(me.toJSON())
 

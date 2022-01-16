@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import { ProductDetails } from './ProductDetails';
 import { BrowserRouter, Route, Switch, NavLink } from 'react-router-dom';
 
-const productURL = "http://127.0.0.1:5000/product";
+const productURL = "http://127.0.0.1:5000/products";
 const categoryURL = "http://127.0.0.1:5000/category";
 
-export class Products extends Component {
+class Products extends Component {
 
     constructor(props) {
         super(props);
@@ -14,11 +13,11 @@ export class Products extends Component {
             categories: [],
             products: [],
             modalTitle: "",
-            Id: 0,
-            Name: "",
-            Price: "",
-            CategoryId: "",
-            Photo: "piesel2.png",
+            _id: 0,
+            _name: "",
+            _price: "",
+            _categoryId: "",
+            _photo: "",
 
             CategoryNameFilter: "",
             categoriesWithoutFilter: []
@@ -26,10 +25,11 @@ export class Products extends Component {
     }
     
     refreshList() {
-        fetch(productURL + this.props.match.params.name)
+        fetch(productURL)
             .then(response => response.json())
             .then(data => {
                 this.setState({ products: data });
+                console.log(data);
             });
 
         fetch(categoryURL)
@@ -48,35 +48,57 @@ export class Products extends Component {
         this.refreshList();
         window.location.reload(false);
     }
+    addToCart() {
+        //something here
+    }
 
     render() {
         const {
             categories: categories,
             products: products,
             modalTitle,
-            Id,
-            Name,
-            Price,
-            CategoryId,
-            Photo
+            _id,
+            _name,
+            _price,
+            _categoryId,
+            _photo
         } = this.state;
 
         return (
             <section className="body">
-            <div>
-                <table className="table table-striped">
+            <p id="header-products">All products</p>
+            <div className="table-prod">
+                <table className="table-products">
+                    <thead>
+                    <th>
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    <th>
+                        Options
+                    </th>
+                    </thead>
                     <tbody>
                         {products.map(prod =>
-                            <tr key={prod.Id}>
+                            <tr key={prod._id}>
+                                <td><img width="250px" height="250px" src={prod._photo} /></td>
+                                <td>{prod._name}</td>
+                                <td>{prod._price}</td>
                                 <td>
-                                    <NavLink to={'/productdetails/' + prod.Id}>
-                                        <img width="250px" height="250px" src={Photo} />
-                                    </NavLink></td>
-                                <td><NavLink to={'/productdetails/' + prod.Id}>
-                                    {prod.Name}
-                                </NavLink></td>
-                                <td>{prod.Price}</td>
-                                <td>{prod.Category.Name}</td>
+                                    <button type="button"
+                                        className="btn btn-light mr-1"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal"
+                                        onClick={() => this.addToCart()}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-plus-fill" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zM8.5 8a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V12a.5.5 0 0 0 1 0v-1.5H10a.5.5 0 0 0 0-1H8.5V8z"/>
+                                        </svg>  
+                                    </button>
+                                </td>
                             </tr>
                         )}
                     </tbody>
@@ -86,3 +108,4 @@ export class Products extends Component {
         )
     }
 }
+export default Products;
