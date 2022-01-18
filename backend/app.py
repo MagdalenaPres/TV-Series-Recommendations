@@ -34,6 +34,17 @@ def get_categories():
     json_string = json.dumps(categories, default=obj_dict)
     return json_string
 
+
+@app.route("/delivery", methods=["GET"])
+def get_delivery_methods():
+    return json.dumps([{"method": "InPost", "price": 7.99}, {"method": "DPD", "price": 12.99}, {"method": "DHL", "price": 11.99}], default=obj_dict)
+
+
+@app.route("/payment", methods=["GET"])
+def get_payment_methods():
+    return json.dumps([{"method": "InPost", "price": 7.99}, {"method": "DPD", "price": 12.99}, {"method": "DHL", "price": 11.99}], default=obj_dict)
+
+
 def obj_dict(obj):
     return obj.__dict__
     

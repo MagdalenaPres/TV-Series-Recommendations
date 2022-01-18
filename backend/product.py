@@ -9,6 +9,7 @@ class Product:
         self.name = name
         self.price = price
         self.photo = photo
+        self._quantity = 1
         self.categoryId = categoryId
 
     @property

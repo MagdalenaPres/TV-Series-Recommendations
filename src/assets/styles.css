@@ -964,3 +964,23 @@ canvas {
     color: #76323f;
     font-weight: bold;
 }
+
+.summaryDiv {
+    margin: 10px auto;
+    text-align: right;
+    width: 70%;
+}
+
+.summary {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.deliveryMethod {
+    text-align: center;
+    padding: 50px 10px 0px;
+}
+
+.deliveryInput {
+    padding: 10px;
+}
