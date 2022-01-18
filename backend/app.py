@@ -45,6 +45,11 @@ def get_payment_methods():
     return json.dumps([{"method": "InPost", "price": 7.99}, {"method": "DPD", "price": 12.99}, {"method": "DHL", "price": 11.99}], default=obj_dict)
 
 
+@app.route("/order", methods=["POST"])
+def order():
+    data_dictionary = request.get_json()
+    pass
+
 def obj_dict(obj):
     return obj.__dict__
     

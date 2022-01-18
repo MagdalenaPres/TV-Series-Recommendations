@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import CartItem from "../CartItem/CartItem";
 import axios from "axios";
+import Confirmation from "../Confirmation/Confirmation";
 
 const deliveryURL = "http://127.0.0.1:5000/delivery";
 const paymentURL = "http://127.0.0.1:5000/payment";
+const orderURL = "http://127.0.0.1:5000/order";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
@@ -13,6 +15,7 @@ const Cart = () => {
   const [selectedDelivery, setSelectedDelivery] = useState("");
   const [payment, setPayment] = useState("");
   const [finalPrice, setFinalPrice] = useState(0);
+  const [isOrderPlaced, setIsOrderdPlaced] = useState(false);
 
   useEffect(() => {
     const cookies = Cookies.get("cart");
@@ -32,7 +35,10 @@ const Cart = () => {
     });
   }, []);
 
-  const handleOnClick = () => {};
+  const handleOnClick = () => {
+    setIsOrderdPlaced(true);
+    Cookies.remove("cart");
+  };
 
   const refreshCart = (newCart) => {
     setCart(newCart);
@@ -66,7 +72,7 @@ const Cart = () => {
 
   return (
     <section className="body">
-      {cart.length !== 0 && (
+      {!isOrderPlaced && cart.length !== 0 && (
         <div>
           <p id="page-name">Cart</p>
           <table className="table-products">
@@ -126,7 +132,8 @@ const Cart = () => {
           </div>
         </div>
       )}
-      {cart.length === 0 && <p id="page-name">No products in your cart.</p>}
+      {!isOrderPlaced && cart.length === 0 && <p id="page-name">No products in your cart.</p>}
+      {isOrderPlaced && <Confirmation price={(selectedDelivery.price + finalPrice).toFixed(2)}/>}
     </section>
   );
 };
