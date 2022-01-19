@@ -1003,7 +1003,11 @@ canvas {
     display: block;
     margin: 0 auto;
     text-align: center;
-    padding-top: 80px;
-    padding-block-start: 80px;
     padding-block-end: 20px;
+}
+
+.cartCounter {
+    margin-top: 70px;
+    margin-right: 20px;
+    text-align: right;
 }
