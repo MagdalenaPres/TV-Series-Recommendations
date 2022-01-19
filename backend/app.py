@@ -71,5 +71,5 @@ def create_products():
     products.append( Product(6, 'Father Mateusz Season 1-10', 222.99, 'https://ecsmedia.pl/c/15350323766419062-jpg-gallery.big-iext53202779.jpg', categories[1]) )
     products.append( Product(7, 'Pen Voldemorts wand', 27, 'https://pixel-shop.pl/userdata/public/gfx/6162/PP4949HP_Harry_Potter_Voldemort_Wand_Pen_Square_Lifestyle_1_1.jpg', categories[2]) )
     products.append( Product(8, 'Figurine Spider-Man', 58.99, 'https://pixel-shop.pl/environment/cache/images/500_500_productGfx_2910/x_fk39403.jpg', categories[2]) )
-    products.append( Product(8, 'Back to the future T-shirt', 68.99, 'https://mtv-80wxfqgk8f.netdna-ssl.com/pub/media/catalog/product/cache/bc78664de09a33f3f6fc2072d6d17195/b/a/back-to-the-future-30th-anniversary-t-shirt_1.jpg', categories[2]) )
+    products.append( Product(9, 'Back to the future T-shirt', 68.99, 'https://mtv-80wxfqgk8f.netdna-ssl.com/pub/media/catalog/product/cache/bc78664de09a33f3f6fc2072d6d17195/b/a/back-to-the-future-30th-anniversary-t-shirt_1.jpg', categories[2]) )
     return products
