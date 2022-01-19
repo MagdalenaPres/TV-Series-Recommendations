@@ -11,6 +11,7 @@ class Products extends Component {
     this.state = {
       categories: [],
       products: [],
+      current_products: [],
       modalTitle: "",
       _id: 0,
       _name: "",
@@ -26,6 +27,7 @@ class Products extends Component {
       .then((response) => response.json())
       .then((data) => {
         this.setState({ products: data });
+        this.setState({ current_products: data });
       });
 
     fetch(categoryURL)
@@ -38,11 +40,37 @@ class Products extends Component {
   componentDidMount() {
     this.refreshList();
   }
+  filterResult(category){
+    this.state.current_products = []
+    
+    if(category === 'All'){
+      this.state.current_products = this.state.products
+      this.componentDidMount()
+    }
+    else
+    {
+      for(let i in this.state.products)
+      {
+        this.setState(
+          { current_products: this.state.current_products }
+        )
+        if(category === this.state.products[i]._categoryId._name)
+        {
+          this.state.current_products.push(this.state.products[i])
+          /*this.setState(
+            { current_products: [...this.state.current_products, this.state.products[i]]}
+          )*/
+          /*this.setState(
+            { current_products: this.state.current_products.push(this.state.products[i])}
+          )*/
+        }
+      }
+    }
+  }
 
   addToCart(prod) {
     //let { cart } = this.state;
     //cart.push(prod);
-    //console.log(cart)
     const cookies = Cookies.get("cart");
     let newCart = [];
 
@@ -73,12 +101,37 @@ class Products extends Component {
   }
 
   render() {
-    const { products: products } = this.state;
+    const { current_products: current_products } = this.state;
 
     return (
       <section className="body">
-        <p id="page-name">All products</p>
         <div className="table-prod">
+          <div className="category-buttons">
+          <button
+              type="button"
+              className="button-category"
+              onClick={() => this.filterResult('All')}> 
+          All  
+          </button> 
+          <button
+              type="button"
+              className="button-category"
+              onClick={() => this.filterResult('Posters')}> 
+          Posters  
+          </button>  
+          <button
+              type="button"
+              className="button-category"
+              onClick={() => this.filterResult('TV Series DVD')}> 
+          TV Series on DVD 
+          </button>   
+          <button
+              type="button"
+              className="button-category"
+              onClick={() => this.filterResult('Gadgets')}>  
+          Gadgets
+           </button>  
+          </div>
           <table className="table-products">
             <thead>
               <th></th>
@@ -87,7 +140,7 @@ class Products extends Component {
               <th>Options</th>
             </thead>
             <tbody>
-              {products.map((prod) => (
+              {current_products.map((prod) => (
                 <tr key={prod._id}>
                   <td>
                     <img width="250px" height="250px" src={prod._photo} />

@@ -984,3 +984,26 @@ canvas {
 .deliveryInput {
     padding: 10px;
 }
+.button-category{
+    background-color: #d4d0d0;
+    border: none;
+    color: rgb(51, 49, 46);
+    padding: 10px 70px;
+    text-align: center;
+    text-decoration: solid;
+    font-size: 20px;
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 20px;
+}
+.category-buttons{
+    margin-top: 200px;
+    margin-bottom: 10px;
+    align-items: center;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 80px;
+    padding-block-start: 80px;
+    padding-block-end: 20px;
+}
