@@ -119,7 +119,7 @@ const Cart = () => {
             })}
           </div>
           <div className="summaryDiv">
-            <p className="summary">Sum of products: {finalPrice}</p>
+            <p className="summary">Sum of products: {finalPrice.toFixed(2)}</p>
             <p className="summary">
               Cost of delivery: {selectedDelivery.price}
             </p>

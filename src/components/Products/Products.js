@@ -27,8 +27,7 @@ class Products extends Component {
     fetch(productURL)
       .then((response) => response.json())
       .then((data) => {
-        this.setState({ products: data });
-        this.setState({ current_products: data });
+        this.setState({ products: data, current_products: data});
       });
 
     fetch(categoryURL)
@@ -48,7 +47,6 @@ class Products extends Component {
 
     if (category === "All") {
       this.setState({ current_products: this.state.products });
-      this.componentDidMount();
     } else {
       for (let i in this.state.products) {
         this.setState({ current_products: this.state.current_products });
@@ -65,7 +63,7 @@ class Products extends Component {
 
     if (cookies === undefined) {
       newCart = [prod];
-      console.log(cookies);
+      
     } else {
       const isInCart = JSON.parse(cookies).find(
         (product) => product._id === prod._id
@@ -103,7 +101,8 @@ class Products extends Component {
   }
 
   render() {
-    const { current_products: current_products, items_in_cart: items_in_cart } =
+    const { current_products: current_products, 
+            items_in_cart: items_in_cart } =
       this.state;
 
     return (
