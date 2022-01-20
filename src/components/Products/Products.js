@@ -40,12 +40,11 @@ class Products extends Component {
 
   componentDidMount() {
     this.refreshList();
-    console.log("jestem");
     this.count_items_in_cart();
   }
 
   filterResult(category) {
-    this.setState({ current_products: [] });
+    this.state.current_products = [];
 
     if (category === "All") {
       this.setState({ current_products: this.state.products });
@@ -55,20 +54,12 @@ class Products extends Component {
         this.setState({ current_products: this.state.current_products });
         if (category === this.state.products[i]._categoryId._name) {
           this.state.current_products.push(this.state.products[i]);
-          /*this.setState(
-            { current_products: [...this.state.current_products, this.state.products[i]]}
-          )*/
-          /*this.setState(
-            { current_products: this.state.current_products.push(this.state.products[i])}
-          )*/
         }
       }
     }
   }
 
   addToCart(prod) {
-    //let { cart } = this.state;
-    //cart.push(prod);
     const cookies = Cookies.get("cart");
     let newCart = [];
 
@@ -76,7 +67,6 @@ class Products extends Component {
       newCart = [prod];
       console.log(cookies);
     } else {
-      //console.log(JSON.parse(cookies))
       const isInCart = JSON.parse(cookies).find(
         (product) => product._id === prod._id
       );
@@ -100,12 +90,16 @@ class Products extends Component {
   }
 
   count_items_in_cart() {
-    const cookies = Cookies.get("cart");
-    const items_in_cart = JSON.parse(cookies)
+    
+    if(Cookies.get("cart")){
+      const cookies = Cookies.get("cart");
+      const items_in_cart = JSON.parse(cookies)
       .map((item) => item._quantity)
       .reduce((prev, next) => prev + next, 0);
-    console.log(items_in_cart);
-    this.setState({ items_in_cart: items_in_cart });
+
+      this.setState({ items_in_cart: items_in_cart });
+    }
+    
   }
 
   render() {

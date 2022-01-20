@@ -68,6 +68,7 @@ const Cart = () => {
     newCart = newCart.filter((product) => product._quantity > 0);
     Cookies.set("cart", JSON.stringify(newCart), { expires: 7, sameSite: 'strict'})
     setCart(newCart);
+    countFinalPrice(newCart)
   };
 
   return (
