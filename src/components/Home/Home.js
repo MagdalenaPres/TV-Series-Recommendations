@@ -153,10 +153,6 @@ class Home extends Component {
               <br />
               Stay tuned and be sure to let us know what you think!
             </div>
-
-            <div className="text_names">
-              <h3>Justyna &amp; Magda</h3>
-            </div>
           </section>
         </section>
 
@@ -241,7 +237,10 @@ class Home extends Component {
               <p id="result"></p>
             </div>
           </section>
-        
+        <br />
+        <br />
+        <br />
+        <br />
       </div>
     );
   }

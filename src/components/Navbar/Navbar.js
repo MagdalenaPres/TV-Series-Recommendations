@@ -11,9 +11,6 @@ class Navbar extends Component {
               <NavLink to="/">Home</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/Movies">Movies</NavLink>
-            </li>
-            <li className="nav-item">
               <NavLink to="/TvSeries">TV series</NavLink>
             </li>
             <li className="nav-item">

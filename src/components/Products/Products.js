@@ -189,6 +189,7 @@ class Products extends Component {
             </tbody>
           </table>
         </div>
+        <br />
       </section>
     );
   }

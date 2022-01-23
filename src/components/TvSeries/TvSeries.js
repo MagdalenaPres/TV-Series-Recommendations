@@ -152,6 +152,11 @@ class TvSeries extends Component {
             </aside>
           </section>
         </section>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
       </div>
     );
   }
