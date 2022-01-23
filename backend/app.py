@@ -27,13 +27,14 @@ def verify():
 
 @app.route('/products', methods=['GET'])
 def get_product():
-    product_schema = ProductSchema()
-    products = []
-    for p in db.session.query(Product).all():
-        products.append(
-            {'id':p.id, 'name':p.name, 'price':p.price, 'photo':p.photo, 'category_id':p.category_id,}
-        )
-    return product_schema.dump(products)
+    pass
+    # product_schema = ProductSchema()
+    # products = []
+    # for p in db.session.query(Product).all():
+    #     products.append(
+    #         {'id':p.id, 'name':p.name, 'price':p.price, 'photo':p.photo, 'category_id':p.category_id,}
+    #     )
+    # return product_schema.dump(products)
    # products = create_products()
    # json_string = json.dumps(products, default=obj_dict)
    # return json_string
@@ -41,11 +42,12 @@ def get_product():
 
 @app.route("/category", methods=["GET"])
 def get_categories():
-    category_schema = CategorySchema()
-    categories = []
-    for c in db.session.query(Category).all():
-        categories.append({'id':c.id, 'name':c.name})
-    return category_schema.dump(categories)
+    pass
+    # category_schema = CategorySchema()
+    # categories = []
+    # for c in db.session.query(Category).all():
+    #     categories.append({'id':c.id, 'name':c.name})
+    # return category_schema.dump(categories)
     # categories = create_categories()
     # json_string = json.dumps(categories, default=obj_dict)
     # return json_string
@@ -70,16 +72,16 @@ def obj_dict(obj):
     return obj.__dict__
     
 
-class CategorySchema(SQLAlchemyAutoSchema):
-    class Meta:
-        model = Category
-        include_relationships = True
-        load_instance = True
+# class CategorySchema(SQLAlchemyAutoSchema):
+#    class Meta:
+#        model = Category
+#        include_relationships = True
+#        load_instance = True
 
 
-class ProductSchema(SQLAlchemyAutoSchema):
-    class Meta:
-        model = Product
-        include_fk = True
-        load_instance = True
+# class ProductSchema(SQLAlchemyAutoSchema):
+#     class Meta:
+#         model = Product
+#         include_fk = True
+#         load_instance = True
     
