@@ -1,7 +1,3 @@
-import itertools
-from flask import Flask, request, jsonify, make_response, json
-
-
 class Product:
     
     def __init__(self, id, name, price, photo, categoryId):

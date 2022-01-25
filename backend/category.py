@@ -1,6 +1,3 @@
-import itertools
-from flask import json
-
 class Category:
     newid = 0
 

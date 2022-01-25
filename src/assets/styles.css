@@ -1030,3 +1030,6 @@ canvas {
     z-index: 100;
   }
  
+.login-form {
+    text-align: center;
+}

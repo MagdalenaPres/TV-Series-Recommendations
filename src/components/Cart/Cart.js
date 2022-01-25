@@ -48,7 +48,7 @@ const Cart = () => {
   const countFinalPrice = (newCart) => {
     let price = 0;
     newCart.map((itemCart) => {
-      price += itemCart._price * itemCart._quantity;
+      price += itemCart.price * itemCart._quantity;
     });
 
     setFinalPrice(price);
@@ -60,7 +60,7 @@ const Cart = () => {
 
   const handleDeleteFromCart = (idProduct) => {
     let newCart = cart.map(product => {
-      if (product._id === idProduct){
+      if (product.product_id === idProduct){
         product._quantity -= 1;
       }
       return product
@@ -90,13 +90,13 @@ const Cart = () => {
               {cart.map((itemCart) => {
                 return (
                   <CartItem
-                    key={itemCart._id}
-                    id={itemCart._id}
-                    name={itemCart._name}
-                    photo={itemCart._photo}
-                    price={itemCart._price}
+                    key={itemCart.product_id}
+                    id={itemCart.product_id}
+                    name={itemCart.name}
+                    photo={itemCart.photo}
+                    price={itemCart.price}
                     quantity={itemCart._quantity}
-                    onClickDelete={() => {handleDeleteFromCart(itemCart._id)}}
+                    onClickDelete={() => {handleDeleteFromCart(itemCart.product_id)}}
                   />
                 );
               })}

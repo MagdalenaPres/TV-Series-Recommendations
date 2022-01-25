@@ -34,7 +34,7 @@ class Product(db.Model):
 
 class Client(db.Model):
     __tablename__ = 'client'
-    client_id = db.Column(db.Integer, primary_key=True, autoincrement = True)
+    client_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(40), nullable=False)
     surname = db.Column(db.String(40))
     email = db.Column(db.String(150))
@@ -57,15 +57,20 @@ class Client(db.Model):
     @password.setter
     def password(self, new_pass):
         new_password_hash = hashlib.pbkdf2_hmac(
-                            'sha256', new_pass, self.salt, 100000)
+            'sha256', new_pass, self.salt, 100000)
         self.password = new_password_hash
 
+Session = db.session()
 
+
+
+user1 = Client(1, "Jan", "Kowalski", "jk@gmail.com", "john12", "john12")
+db.session.add(user1)
+db.session.commit()
 # db.drop_all()
 # db.create_all()
 
-data = db.session.query(Product, Category).join(Category, Product.category_id==Category.category_id).all()
-
-for p, cat in data:
-    print(p.name, p.price, cat.name)
-
+# data = db.session.query(Product, Category).join(Category, Product.category_id==Category.category_id).all()
+#
+# for p, cat in data:
+#     print(p.name, p.price, cat.name)

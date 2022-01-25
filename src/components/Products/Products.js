@@ -13,13 +13,6 @@ class Products extends Component {
       products: [],
       current_products: [],
       items_in_cart: 0,
-      modalTitle: "",
-      _id: 0,
-      _name: "",
-      _price: "",
-      _categoryId: "",
-      _photo: "",
-      _quantity: 1,
     };
   }
 
@@ -27,7 +20,7 @@ class Products extends Component {
     fetch(productURL)
       .then((response) => response.json())
       .then((data) => {
-        this.setState({ products: data, current_products: data});
+        this.setState({ products: data, current_products: data });
       });
 
     fetch(categoryURL)
@@ -50,7 +43,7 @@ class Products extends Component {
     } else {
       for (let i in this.state.products) {
         this.setState({ current_products: this.state.current_products });
-        if (category === this.state.products[i]._categoryId._name) {
+        if (category === this.state.products[i].category.name) {
           this.state.current_products.push(this.state.products[i]);
         }
       }
@@ -60,27 +53,27 @@ class Products extends Component {
   addToCart(prod) {
     const cookies = Cookies.get("cart");
     let newCart = [];
-
     if (cookies === undefined) {
+      prod._quantity = 1;
       newCart = [prod];
-      
     } else {
       const isInCart = JSON.parse(cookies).find(
-        (product) => product._id === prod._id
+        (product) => product.product_id === prod.product_id
       );
 
       if (isInCart !== undefined) {
         newCart = JSON.parse(cookies).map((product) => {
-          if (product._id === prod._id) {
+          if (product.product_id === prod.product_id) {
             product._quantity += 1;
           }
           return product;
         });
       } else {
+        prod._quantity = 1;
         newCart = [...JSON.parse(cookies), prod];
       }
     }
-    
+
     const objectString = JSON.stringify(newCart);
 
     Cookies.set("cart", objectString, { expires: 7, sameSite: "strict" });
@@ -88,21 +81,18 @@ class Products extends Component {
   }
 
   count_items_in_cart() {
-    
-    if(Cookies.get("cart")){
+    if (Cookies.get("cart")) {
       const cookies = Cookies.get("cart");
       const items_in_cart = JSON.parse(cookies)
-      .map((item) => item._quantity)
-      .reduce((prev, next) => prev + next, 0);
+        .map((item) => item._quantity)
+        .reduce((prev, next) => prev + next, 0);
 
       this.setState({ items_in_cart: items_in_cart });
     }
-    
   }
 
   render() {
-    const { current_products: current_products, 
-            items_in_cart: items_in_cart } =
+    const { current_products: current_products, items_in_cart: items_in_cart } =
       this.state;
 
     return (
@@ -150,17 +140,17 @@ class Products extends Component {
             </thead>
             <tbody>
               {current_products.map((prod) => (
-                <tr key={prod._id}>
+                <tr key={prod.product_id}>
                   <td>
                     <img
                       alt="product"
                       width="250px"
                       height="250px"
-                      src={prod._photo}
+                      src={prod.photo}
                     />
                   </td>
-                  <td>{prod._name}</td>
-                  <td>{prod._price}</td>
+                  <td>{prod.name}</td>
+                  <td>{prod.price}</td>
                   <td>
                     <button
                       type="button"

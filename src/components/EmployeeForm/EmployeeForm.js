@@ -25,6 +25,8 @@ const EmployeeForm = () => {
       setValidateMessage("Wypełnij nazwisko!");
     } else if (mail.trim() === "") {
       setValidateMessage("Wypełnij email!");
+    } else if (phone.trim() === "") {
+        setValidateMessage("Wypełnij numer telefonu!");
     } else {
       setIsFormShown(false);
 

@@ -1,17 +1,63 @@
+from multiprocessing.connection import Client
 from multiprocessing.sharedctypes import Value
-from flask import Flask, request, jsonify, json
+from datetime import timedelta, timezone
+import datetime
+from flask import Flask, request, json
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from flask.json import jsonify
+from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
+
 from person import Person
-from category import Category
-from product import Product
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////web-project.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config["JWT_SECRET_KEY"] = "please-remember-to-change-me"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+
+jwt = JWTManager(app)
 db = SQLAlchemy(app)
 CORS(app)
+
+from database import Product, Category, Client
+from schema import ProductSchema, CategorySchema
+
+productSchema = ProductSchema()
+categoriesSchema = CategorySchema()
+
+
+@app.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+        return response
+    except (RuntimeError, KeyError):
+        # Case where there is not a valid JWT. Just return the original respone
+        return response
+
+@app.route('/login', methods=["POST"])
+def create_token():
+    _login = request.json.get("login", None)
+    _password = request.json.get("password", None)
+
+    logged_client = Client.query.filter_by(login=_login).first() #TODO sprawdzić password
+    if not logged_client:
+        return {"msg": "Wrong username or password"}, 401
+
+    access_token = create_access_token(identity=_login)
+    response = {"access_token":access_token}
+    return response
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    response = jsonify({"msg": "logout successful"})
+    unset_jwt_cookies(response)
+    return response
 
 
 @app.route("/verify", methods=["POST"])
@@ -26,41 +72,24 @@ def verify():
 
 
 @app.route('/products', methods=['GET'])
-def get_product():
-    pass
-    # product_schema = ProductSchema()
-    # products = []
-    # for p in db.session.query(Product).all():
-    #     products.append(
-    #         {'id':p.id, 'name':p.name, 'price':p.price, 'photo':p.photo, 'category_id':p.category_id,}
-    #     )
-    # return product_schema.dump(products)
-   # products = create_products()
-   # json_string = json.dumps(products, default=obj_dict)
-   # return json_string
+def get_products():
+    all_products = Product.query.all()
+    jsonified = productSchema.dumps(all_products, many=True)
+    return jsonified, 200
 
 
 @app.route("/category", methods=["GET"])
 def get_categories():
-    pass
-    # category_schema = CategorySchema()
-    # categories = []
-    # for c in db.session.query(Category).all():
-    #     categories.append({'id':c.id, 'name':c.name})
-    # return category_schema.dump(categories)
-    # categories = create_categories()
-    # json_string = json.dumps(categories, default=obj_dict)
-    # return json_string
-    
+    all_categories = Category.query.all()
+    jsonified = categoriesSchema.dumps(all_categories, many=True)
+    return jsonified, 200
+
 
 @app.route("/delivery", methods=["GET"])
 def get_delivery_methods():
-    return json.dumps([{"method": "InPost", "price": 7.99}, {"method": "DPD", "price": 12.99}, {"method": "DHL", "price": 11.99}], default=obj_dict)
-
-
-@app.route("/payment", methods=["GET"])
-def get_payment_methods():
-    return json.dumps([{"method": "InPost", "price": 7.99}, {"method": "DPD", "price": 12.99}, {"method": "DHL", "price": 11.99}], default=obj_dict)
+    return json.dumps(
+        [{"method": "InPost", "price": 7.99}, {"method": "DPD", "price": 12.99}, {"method": "DHL", "price": 11.99}],
+        default=obj_dict)
 
 
 @app.route("/order", methods=["POST"])
@@ -68,20 +97,10 @@ def order():
     data_dictionary = request.get_json()
     pass
 
+
 def obj_dict(obj):
     return obj.__dict__
-    
-
-# class CategorySchema(SQLAlchemyAutoSchema):
-#    class Meta:
-#        model = Category
-#        include_relationships = True
-#        load_instance = True
 
 
-# class ProductSchema(SQLAlchemyAutoSchema):
-#     class Meta:
-#         model = Product
-#         include_fk = True
-#         load_instance = True
-    
+if __name__ == "__main__":
+    app.run(debug=True)
