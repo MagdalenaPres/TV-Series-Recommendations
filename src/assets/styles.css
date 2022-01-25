@@ -927,6 +927,7 @@ canvas {
 }
 .table-prod{
     margin-top: 10px;
+    clear: right;
 }
 .table-products{
     text-align: left;
@@ -1032,4 +1033,47 @@ canvas {
  
 .login-form {
     text-align: center;
+}
+.top-rows{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    margin-top: 80px;
+}
+.prod-details-img{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+.prod-details-det{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+#border{
+    border: 3px solid #565656;
+    padding-block: 40px;
+    padding-inline: 80px;
+}
+#prod-name{
+    font-style: normal;
+    font-size: 30px;
+    color: #565656;
+    font-weight: bold;
+}
+#prod-price{
+    font-weight: bold;
+    font-size: 25px;
+}
+
+#add-prod-button{
+    margin-top: 80px;
+    float: right;
+    text-align: right;
+    margin-bottom: 20px;
+    margin-right: 50px;
 }

@@ -143,7 +143,7 @@ class Products extends Component {
               {current_products.map((prod) => (
                 <tr key={prod.product_id}>
                   <td>
-                  <NavLink to={'/productdetails/' + prod.Id}>
+                  <NavLink to={'/productdetails/' + prod.product_id}>
                     <img
                       alt="product"
                       width="250px"
@@ -152,7 +152,9 @@ class Products extends Component {
                     />
                     </NavLink>
                   </td>
-                  <td><NavLink to={'/productdetails/' + prod.Id}>{prod.name}</NavLink></td>
+                  <td><NavLink to={'/productdetails/' + prod.product_id}>
+                    {prod.name}
+                    </NavLink></td>
                   <td>{prod.price}</td>
                   <td>
                     <button

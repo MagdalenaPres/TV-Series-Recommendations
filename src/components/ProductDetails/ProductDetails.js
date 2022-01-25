@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import Cookies from "js-cookie";
+
+const productURL = "http://127.0.0.1:5000/products/";
+const categoryURL = "http://127.0.0.1:5000/category";
 
 class ProductDetails extends Component {
 
@@ -6,61 +10,78 @@ class ProductDetails extends Component {
         super(props);
 
         this.state = {
-            product: [],
-            opinions: [], 
-            modalTitle: "",
-            PhotoName: "",
-            Contents: "",
-            IsAnnonymous: false
+            categories: [],
+            product: []
         }
     }
 
     refreshList() {
-
-        fetch('product/one/' + this.props.match.params.id)
-            .then(response => response.json())
-            .then(data => {
-                this.setState({ product: data });
-            });
+        fetch(productURL + this.props.match.params.id)
+          .then((response) => response.json())
+          
+          .then((data) => {
+            this.setState({ product: data });
+        });
+    
+        fetch(categoryURL)
+          .then((response) => response.json())
+          .then((data) => {
+            this.setState({ categories: data });
+        });
     }
 
     componentDidMount() {
         this.refreshList();
     }
+    addToCart(prod) {
+        const cookies = Cookies.get("cart");
+        let newCart = [];
+        if (cookies === undefined) {
+          prod._quantity = 1;
+          newCart = [prod];
+        } else {
+          const isInCart = JSON.parse(cookies).find(
+            (product) => product.product_id === prod.product_id
+          );
     
-    render() {
-        const {
-            product,
-            modalTitle,
-            PhotoName,
-            PhotoPath
-        } = this.state;
+          if (isInCart !== undefined) {
+            newCart = JSON.parse(cookies).map((product) => {
+              if (product.product_id === prod.product_id) {
+                product._quantity += 1;
+              }
+              return product;
+            });
+          } else {
+            prod._quantity = 1;
+            newCart = [...JSON.parse(cookies), prod];
+          }
+        }
+        const objectString = JSON.stringify(newCart);
 
-        return (
-            <section className="body">
-                <div className="top-rows">
-                <h5 className="modal-title">{modalTitle}</h5>
-                <div className="prod-details-img">
-                    {product.map(emp => 
-                        <p key={emp.Id}>
-                            <img width="350px" height="300px" src={PhotoPath + emp.PhotoName}/>
-                        </p>
-                    )}
-                </div>
-                <div className="prod-details-det">
-                    <div id="border">
-                        {product.map(emp => 
-                        <p key={emp.Id}>
-                            <p id="prod-name"><strong>{emp.Name}</strong></p>
-                            <p id="prod-price" fontWeight="bold">{emp.Price}$</p>
-                        </p>
-                        )}
-                        <p><button className="button-style" onClick={() => this.addToCart()}>Add to cart</button></p>
-                    </div>
-                </div> 
-            </div>
-            </section>
-        )
+        Cookies.set("cart", objectString, { expires: 7, sameSite: "strict" });
+        this.count_items_in_cart();
     }
+
+    render() {
+        const { product: product } = this.state;
+   
+    return (
+        <section className="body">
+            <div className="top-rows">
+            <div className="prod-details-img"> 
+                <img width="320px" height="330px" src={product.photo}/>    
+            </div>
+            <div className="prod-details-det">
+                <div id="border">
+                    <p id="prod-name"><strong>{product.name}</strong></p>
+                    <p id="prod-price" fontWeight="bold">{product.price}$</p>
+                    <p><button className="button-form" onClick={() => this.addToCart(product)}>Add to cart</button></p>
+                </div>
+            </div> 
+        </div>
+        </section>
+    )
+    }
+    
 }
 export default ProductDetails;

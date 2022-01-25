@@ -78,7 +78,13 @@ def verify():
 def get_clients():
     all_clients = Client.query.all()
     jsonified = clientsSchema.dumps(all_clients, many=True)
+    return jsonified, 200
 
+
+@app.route('/products/<_product_id>', methods=['GET'])
+def get_product(_product_id):
+    product = Product.query.filter_by(product_id=_product_id).first()
+    jsonified = productSchema.dumps(product)
     return jsonified, 200
 
 
