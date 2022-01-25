@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Cookies from "js-cookie";
+import {NavLink } from 'react-router-dom';
 
 const productURL = "http://127.0.0.1:5000/products";
 const categoryURL = "http://127.0.0.1:5000/category";
@@ -142,14 +143,16 @@ class Products extends Component {
               {current_products.map((prod) => (
                 <tr key={prod.product_id}>
                   <td>
+                  <NavLink to={'/productdetails/' + prod.Id}>
                     <img
                       alt="product"
                       width="250px"
                       height="250px"
                       src={prod.photo}
                     />
+                    </NavLink>
                   </td>
-                  <td>{prod.name}</td>
+                  <td><NavLink to={'/productdetails/' + prod.Id}>{prod.name}</NavLink></td>
                   <td>{prod.price}</td>
                   <td>
                     <button

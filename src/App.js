@@ -10,6 +10,7 @@ import Styles from "./assets/styles.css";
 import Login from "./components/Login/Login.js";
 import { useState } from "react";
 import useToken from "./components/useToken";
+import ProductDetails from './components/ProductDetails/ProductDetails';
 
 const App = () => {
   const { token, removeToken, setToken } = useToken();
@@ -24,6 +25,7 @@ const App = () => {
         <Route exact path="/Products" component={Products} />
         <Route exact path="/Cart" component={Cart} />
         <Route exact path="/Login" render={props => <Login setToken={setToken} {...props} />} />
+        <Route path="/productdetails/:id" component={ProductDetails} />
         <div className="footer">
           <Footer />
         </div>

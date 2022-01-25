@@ -7,6 +7,7 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask.json import jsonify
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from person import Person
 
@@ -21,10 +22,11 @@ db = SQLAlchemy(app)
 CORS(app)
 
 from database import Product, Category, Client
-from schema import ProductSchema, CategorySchema
-
+from schema import ProductSchema, CategorySchema, ClientSchema
+ 
 productSchema = ProductSchema()
 categoriesSchema = CategorySchema()
+clientsSchema = ClientSchema()
 
 
 @app.after_request
@@ -44,14 +46,15 @@ def refresh_expiring_jwts(response):
 def create_token():
     _login = request.json.get("login", None)
     _password = request.json.get("password", None)
+            
+    logged_client = Client.query.filter_by(login=_login).first()
 
-    logged_client = Client.query.filter_by(login=_login).first() #TODO sprawdzić password
-    if not logged_client:
-        return {"msg": "Wrong username or password"}, 401
+    if logged_client and check_password_hash(logged_client.password, _password):
+        access_token = create_access_token(identity=_login)
+        response = {"access_token":access_token}
+        return response
 
-    access_token = create_access_token(identity=_login)
-    response = {"access_token":access_token}
-    return response
+    return {"msg": "Wrong username or password"}, 401
 
 @app.route("/logout", methods=["POST"])
 def logout():
@@ -69,6 +72,14 @@ def verify():
         return {'message': f'{person.__str__()}'}
     except ValueError as e:
         return {'message': f'{e}'}, 400
+
+
+@app.route('/clients', methods=['GET'])
+def get_clients():
+    all_clients = Client.query.all()
+    jsonified = clientsSchema.dumps(all_clients, many=True)
+
+    return jsonified, 200
 
 
 @app.route('/products', methods=['GET'])

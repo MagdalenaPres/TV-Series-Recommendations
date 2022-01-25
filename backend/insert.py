@@ -1,9 +1,7 @@
-from database import  Client #Product, Category, Client
+# from database import Product, Category, Client
 from app import db
 
-# Session = db.session()
-
-
+Session = db.session()
 
 # user1 = Client(1, "Jan", "Kowalski", "jk@gmail.com", "john12", "john12")
 # db.session.add(user1)
@@ -14,7 +12,7 @@ from app import db
 # db.session.add(cat2)
 # cat3 = Category(3, name='Gadgets')
 # db.session.add(cat3)
-#
+# #
 # prod = Product(product_id=1, name='Poster DIUNA', price=22.99, photo='https://fwcdn.pl/fpo/94/76/469476/7972251.3.jpg', category_id=1)
 # db.session.add(prod)
 # prod = Product(2,  name='Poster C MON C MON', price=24.99, photo='https://sklep.gutekfilm.pl/uploads/x500/cmoncmon-plakatpl-patroni-lq.jpg', category_id=1)
@@ -33,7 +31,7 @@ from app import db
 # db.session.add(prod)
 # prod = Product(9, name='Back to the future T-shirt', price=68.99, photo='https://mtv-80wxfqgk8f.netdna-ssl.com/pub/media/catalog/product/cache/bc78664de09a33f3f6fc2072d6d17195/b/a/back-to-the-future-30th-anniversary-t-shirt_1.jpg', category_id=3)
 # db.session.add(prod)
-#
+# 
 # # zapis zmian w bazie danych
 # db.session.commit()
 #

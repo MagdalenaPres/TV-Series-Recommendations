@@ -2,10 +2,12 @@ from app import db
 from sqlalchemy.ext.hybrid import hybrid_property
 import hashlib
 import os
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class Category(db.Model):
     __tablename__ = 'category'
+    __table_args__ = {'extend_existing': True}
     category_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
 
@@ -16,6 +18,7 @@ class Category(db.Model):
 
 class Product(db.Model):
     __tablename__ = 'product'
+    __table_args__ = {'extend_existing': True}
     product_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     price = db.Column(db.Float)
@@ -34,13 +37,13 @@ class Product(db.Model):
 
 class Client(db.Model):
     __tablename__ = 'client'
+    __table_args__ = {'extend_existing': True}
     client_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(40), nullable=False)
     surname = db.Column(db.String(40))
     email = db.Column(db.String(150))
     login = db.Column(db.String(30), unique=True, nullable=False)
-    password = db.Column(db.String(40))
-    salt = os.urandom(512)
+    password = db.Column(db.String(120))
 
     def __init__(self, client_id, name, surname, email, login, password):
         self.client_id = client_id
@@ -48,29 +51,33 @@ class Client(db.Model):
         self.surname = surname
         self.email = email
         self.login = login
-        self.password = password
+        self.password = generate_password_hash(password)
 
-    @hybrid_property
-    def password(self):
-        return self.password
-
-    @password.setter
-    def password(self, new_pass):
-        new_password_hash = hashlib.pbkdf2_hmac(
-            'sha256', new_pass, self.salt, 100000)
-        self.password = new_password_hash
-
+    # @property
+    # def password(self):
+    #     return self.password
+# 
+    # @password.setter
+    # def password(self, new_pass):
+    #     new_password_hash = generate_password_hash(new_pass)
+    #     self.password = new_password_hash
+# 
 Session = db.session()
 
 
-
-user1 = Client(1, "Jan", "Kowalski", "jk@gmail.com", "john12", "john12")
-db.session.add(user1)
-db.session.commit()
 # db.drop_all()
 # db.create_all()
-
+user1 = Client(3, "Ola", "Bocian", "bocian1@gmail.com", "bociek123", "olab")
+# db.session.add(user1)
+# db.session.commit()
+# 
 # data = db.session.query(Product, Category).join(Category, Product.category_id==Category.category_id).all()
-#
+
 # for p, cat in data:
-#     print(p.name, p.price, cat.name)
+#      print(p.name, p.price, cat.name)
+#  
+clients = db.session.query(Client).all()
+# 
+for c in clients:
+    print(c.login, c.password, c.name, c.surname)
+# 
