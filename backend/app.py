@@ -3,7 +3,7 @@ from multiprocessing.sharedctypes import Value
 from datetime import timedelta, timezone
 import datetime
 from flask import Flask, request, json
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from flask_sqlalchemy import SQLAlchemy
 from flask.json import jsonify
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
@@ -17,11 +17,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////web-project.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["JWT_SECRET_KEY"] = "please-remember-to-change-me"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 jwt = JWTManager(app)
 db = SQLAlchemy(app)
-CORS(app)
+CORS(app, resources={r'/*': {'origins': '*'}})
 ma = Marshmallow(app)
+app.debug = True
 
 from database import Product, Category, Client
 from schema import ProductSchemaNested, CategorySchema, ClientSchema, ProductSchema
@@ -138,7 +140,6 @@ def deleteProduct(id):
 def editProduct():
     data_dictionary = request.get_json()
     existing_product = Product.query.get(data_dictionary["product_id"])
-
     try:
         product_category = Category.query.filter_by(name=data_dictionary["category_id"]).first()
         data_dictionary["category_id"] = product_category.category_id

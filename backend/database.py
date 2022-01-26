@@ -54,15 +54,7 @@ class Client(db.Model):
         self.login = login
         self.password = generate_password_hash(password)
 
-    # @property
-    # def password(self):
-    #     return self.password
-# 
-    # @password.setter
-    # def password(self, new_pass):
-    #     new_password_hash = generate_password_hash(new_pass)
-    #     self.password = new_password_hash
-# 
+
 Session = db.session()
 
 

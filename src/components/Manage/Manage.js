@@ -17,10 +17,10 @@ class Manage extends Component {
       products: [],
       modalTitle: "",
       product_id: 0,
-      category_id: 0,
+      category_id: "Posters",
       name: "",
       price: "",
-      category_id: "",
+      category: "",
       photo:
         "https://www.instandngs4p.eu/wp-content/themes/fox/images/placeholder.jpg"
     };
@@ -60,12 +60,10 @@ class Manage extends Component {
     this.setState({
       modalTitle: "Add Product",
       product_id: 0,
-      category_id: 0,
+      category_id: "Posters",
       name: "",
       price: "",
-      category_id: "",
-      photo:
-        "https://www.instandngs4p.eu/wp-content/themes/fox/images/placeholder.jpg",
+      photo: "https://www.instandngs4p.eu/wp-content/themes/fox/images/placeholder.jpg",
     });
   }
   editClick(prod) {
@@ -75,7 +73,7 @@ class Manage extends Component {
       name: prod.name,
       price: prod.price,
       category_id: prod.category_id,
-      photo: prod.photo,
+      photo: prod.photo
     });
   }
 
@@ -110,14 +108,14 @@ class Manage extends Component {
       method: "PUT",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         product_id: this.state.product_id,
         name: this.state.name,
         price: this.state.price,
         category_id: this.state.category_id,
-        photo: this.state.photo,
+        photo: this.state.photo
       }),
     })
       .then((res) => res.json())
@@ -178,6 +176,7 @@ class Manage extends Component {
       name,
       price,
       category_id,
+      category,
       photo,
     } = this.state;
     return (
@@ -207,6 +206,7 @@ class Manage extends Component {
                 <th></th>
                 <th>Name</th>
                 <th>Price</th>
+                <th>Category</th>
                 <th>Options</th>
               </thead>
               <tbody>
@@ -222,6 +222,7 @@ class Manage extends Component {
                     </td>
                     <td>{prod.name}</td>
                     <td>{prod.price}</td>
+                    <td>{prod.category.name}</td>
                     <td>
                       <button
                         type="button"
@@ -310,7 +311,7 @@ class Manage extends Component {
                     <select
                       className="form-select"
                       onChange={this.changeCategory}
-                      value={category_id}
+                      value={category.name}
                     >
                       {categories.map((cat) => (
                         <option key={cat.category_id}>{cat.name}</option>
