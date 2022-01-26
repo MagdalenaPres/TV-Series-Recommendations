@@ -1,10 +1,11 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
 from marshmallow import fields
+from app import ma
 
 from database import Category, Product, Client
 
 
-class CategorySchema(SQLAlchemyAutoSchema):
+class CategorySchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Category
         load_instance = True
@@ -12,8 +13,19 @@ class CategorySchema(SQLAlchemyAutoSchema):
     category_id = auto_field()
     name = auto_field()
 
+class ProductSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Product
+        load_instance = True
+        include_fk = True
 
-class ProductSchema(SQLAlchemyAutoSchema):
+    product_id = auto_field()
+    name = auto_field()
+    price = auto_field()
+    photo = auto_field()
+    category_id = auto_field()
+
+class ProductSchemaNested(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Product
         load_instance = True
@@ -24,7 +36,7 @@ class ProductSchema(SQLAlchemyAutoSchema):
     photo = auto_field()
     category = fields.Nested(lambda: CategorySchema(only=("name",)), dump_only=True)
 
-class ClientSchema(SQLAlchemyAutoSchema):
+class ClientSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Client
         load_instance = True

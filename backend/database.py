@@ -19,7 +19,9 @@ class Category(db.Model):
 class Product(db.Model):
     __tablename__ = 'product'
     __table_args__ = {'extend_existing': True}
-    product_id = db.Column(db.Integer, primary_key=True)
+    __table_args__ = {'sqlite_autoincrement': True}
+
+    product_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     price = db.Column(db.Float)
     photo = db.Column(db.String(150))
@@ -27,8 +29,7 @@ class Product(db.Model):
 
     category = db.relationship('Category', backref=db.backref('product', lazy=True))
 
-    def __init__(self, product_id, name, price, photo, category_id):
-        self.product_id = product_id
+    def __init__(self, name, price, photo, category_id):
         self.name = name
         self.price = price
         self.photo = photo
@@ -67,7 +68,7 @@ Session = db.session()
 
 # db.drop_all()
 # db.create_all()
-user1 = Client(3, "Ola", "Bocian", "bocian1@gmail.com", "bociek123", "olab")
+# user1 = Client(3, "Ola", "Bocian", "bocian1@gmail.com", "bociek123", "olab")
 # db.session.add(user1)
 # db.session.commit()
 # 
@@ -76,8 +77,8 @@ user1 = Client(3, "Ola", "Bocian", "bocian1@gmail.com", "bociek123", "olab")
 # for p, cat in data:
 #      print(p.name, p.price, cat.name)
 #  
-clients = db.session.query(Client).all()
-# 
-for c in clients:
-    print(c.login, c.password, c.name, c.surname)
+# clients = db.session.query(Client).all()
+# # 
+# for c in clients:
+#     print(c.login, c.password, c.name, c.surname)
 # 

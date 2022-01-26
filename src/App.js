@@ -9,9 +9,8 @@ import Footer from "./components/Footer/Footer.js";
 import Styles from "./assets/styles.css";
 import Login from "./components/Login/Login.js";
 import Manage from "./components/Manage/Manage.js";
-import { useState } from "react";
 import useToken from "./components/useToken";
-import ProductDetails from './components/ProductDetails/ProductDetails';
+import ProductDetails from "./components/ProductDetails/ProductDetails";
 
 const App = () => {
   const { token, removeToken, setToken } = useToken();
@@ -25,9 +24,16 @@ const App = () => {
         <Route exact path="/EmployeeForm" component={EmployeeForm} />
         <Route exact path="/Products" component={Products} />
         <Route exact path="/Cart" component={Cart} />
-        <Route exact path="/Login" render={props => <Login setToken={setToken} {...props} />} />
         <Route path="/productdetails/:id" component={ProductDetails} />
-        <Route exact path="/Manage" component={Manage} />
+        {!token && token !== "" && token !== undefined ? (
+          <Route
+            exact
+            path="/Manage"
+            render={(props) => <Login setToken={setToken} {...props} />}
+          />
+        ) : (
+          <Route exact path="/Manage" render={(props) => <Manage token={removeToken} {...props} />} />
+        )}
         <div className="footer">
           <Footer />
         </div>

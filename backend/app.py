@@ -8,6 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask.json import jsonify
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_marshmallow import Marshmallow
 
 from person import Person
 
@@ -20,10 +21,12 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 jwt = JWTManager(app)
 db = SQLAlchemy(app)
 CORS(app)
+ma = Marshmallow(app)
 
 from database import Product, Category, Client
-from schema import ProductSchema, CategorySchema, ClientSchema
+from schema import ProductSchemaNested, CategorySchema, ClientSchema, ProductSchema
  
+productSchemaNested = ProductSchemaNested()
 productSchema = ProductSchema()
 categoriesSchema = CategorySchema()
 clientsSchema = ClientSchema()
@@ -84,14 +87,14 @@ def get_clients():
 @app.route('/products/<_product_id>', methods=['GET'])
 def get_product(_product_id):
     product = Product.query.filter_by(product_id=_product_id).first()
-    jsonified = productSchema.dumps(product)
+    jsonified = productSchemaNested.dumps(product)
     return jsonified, 200
 
 
 @app.route('/products', methods=['GET'])
 def get_products():
     all_products = Product.query.all()
-    jsonified = productSchema.dumps(all_products, many=True)
+    jsonified = productSchemaNested.dumps(all_products, many=True)
     return jsonified, 200
 
 
@@ -107,6 +110,44 @@ def get_delivery_methods():
     return json.dumps(
         [{"method": "InPost", "price": 7.99}, {"method": "DPD", "price": 12.99}, {"method": "DHL", "price": 11.99}],
         default=obj_dict)
+
+
+@app.route("/add", methods=["POST"])
+def addProduct():
+    data_dictionary = request.get_json()
+    try:
+        product_category = Category.query.filter_by(name=data_dictionary["category_id"]).first()
+        data_dictionary["category_id"] = product_category.category_id
+        new_product = productSchema.load(data_dictionary)
+        db.session.add(new_product)
+        db.session.commit()
+        return {'message': "New product successfully added "}, 200
+    except ValueError as e:
+        return {'message': f'{e}'}, 400
+
+
+@app.route("/delete/<id>", methods=["DELETE"])
+def deleteProduct(id):
+    product_to_delete = Product.query.get(id)
+    db.session.delete(product_to_delete)
+    db.session.commit()
+    return {'message': "Product successfully deleted "}, 200
+
+
+@app.route("/edit", methods=["PUT"])
+def editProduct():
+    data_dictionary = request.get_json()
+    existing_product = Product.query.get(data_dictionary["product_id"])
+
+    try:
+        product_category = Category.query.filter_by(name=data_dictionary["category_id"]).first()
+        data_dictionary["category_id"] = product_category.category_id
+        new_product = productSchema.load(data_dictionary, instance=existing_product)
+        db.session.add(new_product)
+        db.session.commit()
+        return {'message': "Product successfully edited "}, 200
+    except ValueError as e:
+        return {'message': f'{e}'}, 400
 
 
 @app.route("/order", methods=["POST"])

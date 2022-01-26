@@ -23,9 +23,6 @@ class Navbar extends Component {
               <NavLink to="/Cart">Cart</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/Login">Login</NavLink>
-            </li>
-            <li className="nav-item">
               <NavLink to="/Manage">Manage</NavLink>
             </li>
           </ul>
