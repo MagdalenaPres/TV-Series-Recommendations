@@ -72,9 +72,10 @@ class Manage extends Component {
       product_id: prod.product_id,
       name: prod.name,
       price: prod.price,
-      category_id: prod.category_id,
+      category_id: prod.category.name,
       photo: prod.photo
     });
+    console.log(prod.category_id)
   }
 
   createClick() {
@@ -327,7 +328,7 @@ class Manage extends Component {
                       onChange={this.changePhoto}
                     />
                   </div>
-                  {product_id == 0 ? (
+                  {product_id === 0 ? (
                     <button
                       type="button"
                       className="btn btn-primary float-start"
@@ -336,7 +337,7 @@ class Manage extends Component {
                       Create
                     </button>
                   ) : null}
-                  {product_id != 0 ? (
+                  {product_id !== 0 ? (
                     <button
                       type="button"
                       className="btn btn-primary float-start"
