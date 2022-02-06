@@ -1,3 +1,8 @@
-# Projektowanie systemów webowych
+# **TV Series Recommendations Website**
+Web application made for academic course Web Systems Programming
 
-autorzy: Magdalena Preś, Justyna Małuszyńska
+Authors: Magdalena Preś, Justyna Małuszyńska
+
+## **Technologies**
+- React
+- Flask
